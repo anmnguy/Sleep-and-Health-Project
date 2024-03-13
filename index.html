@@ -10,15 +10,26 @@
     <div id="intro">
         <h1>Sleep Health and Lifestyle</h1>
         <p>Discover how lifestyle factors influence sleep health.</p>
-        <button id="startBtn">Start Exploring</button>
-    </div>
-    <div id="visualization" style="display: none;">
-        <!-- Parallel Coordinate Plot Placeholder -->
-        <div id="parallelPlot"></div>
-        <!-- Scatter Plot Placeholder -->
-        <div id="scatterPlot"></div>
-    </div>
 
+    </div>
+    <div class="flex-row">
+        <div class="flex-col">
+            <div class="title">Occupation vs Quality of Sleep</div>
+            <svg id="barChart" height="300"></svg>
+        </div>
+        <div class="separator-horizontal"></div>
+       
+    </div>
+    
     <script src="script.js"></script> <!-- Link to your JavaScript file -->
 </body>
 </html>
+
+<div id="visualization" style="display: none;">
+    <!-- Bar Chart Placeholder -->
+    <svg id="barChart"></svg>
+    <!-- Parallel Coordinate Plot Placeholder -->
+    <div id="parallelPlot"></div>
+    <!-- Scatter Plot Placeholder -->
+    <div id="scatterPlot"></div>
+</div>
