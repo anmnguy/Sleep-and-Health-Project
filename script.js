@@ -874,7 +874,7 @@ function heartRate_scatterPlot_Duration(data) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     const x = d3.scaleLinear()
-        .domain([0, 150])
+        .domain([50, 100])
         .range([0, width]);
 
     const xAxis = svg.append("g")
