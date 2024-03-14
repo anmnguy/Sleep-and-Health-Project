@@ -3,3 +3,24 @@
     font-size: 20px;
     margin-left: 30px;
 }
+
+.page-wrapper {
+    margin: 15px;
+    background-color: white;
+  }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+  }
+  
+  
