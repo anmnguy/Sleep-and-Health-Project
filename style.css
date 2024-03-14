@@ -13,10 +13,10 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
+    width: 75%;
   }
   
-  .column {
+  .col {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;

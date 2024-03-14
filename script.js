@@ -1,15 +1,5 @@
 
 
-
-// Occupation - bar chart
-// Sleep Disorder - box plot or bar chart?
-
-
-// Physical Activity - scatter plot
-// Stress - scatter plot  
- 
-// Cardiovascular Health - ?? 
-
 const tooltip = d3.select("body").append("div")
     .style("position", "absolute")
     .style("background-color", "white")
@@ -21,8 +11,8 @@ const tooltip = d3.select("body").append("div")
 
 function occupation_barChart_Duration(data) {
     const margin = {top: 25, right: 50, bottom: 80, left: 100};
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
     
     const svg = d3.select("#Occupation_vs_Duration_barChart")
     .attr("width", width + margin.left + margin.right)
@@ -87,7 +77,7 @@ function occupation_barChart_Duration(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 50) + "," + width / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -123,8 +113,8 @@ function occupation_barChart_Duration(data) {
 
 function occupation_barChart_Quality(data) {
     const margin = {top: 25, right: 50, bottom: 80, left: 100};
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
     
     const svg = d3.select("#Occupation_vs_Quality_barChart")
     .attr("width", width + margin.left + margin.right)
@@ -189,7 +179,7 @@ function occupation_barChart_Quality(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 50) + "," + width / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -225,8 +215,8 @@ function occupation_barChart_Quality(data) {
 
 function sleepDisorder_barChart(data) {
     const margin = {top: 25, right: 50, bottom: 80, left: 100};
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
     
     const svg = d3.select("#sleep_disorder_barChart")
     .attr("width", width + margin.left + margin.right)
@@ -291,7 +281,7 @@ function sleepDisorder_barChart(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 50) + "," + width / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -326,8 +316,8 @@ function sleepDisorder_barChart(data) {
 
 function sleepDisorder_boxPlot(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     // Define the color scale
     const colorScale = d3.scaleOrdinal()
@@ -436,8 +426,8 @@ function sleepDisorder_boxPlot(data) {
 
     // Y-Label
     svg.append("text")
-        .attr("transform",
-            "translate(" + (-margin.left + 50) + "," + width / 2 + ")" +
+        .attr("transform", 
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -459,8 +449,8 @@ function sleepDisorder_boxPlot(data) {
 
 function physicalActivity_scatterPlot_Duration(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     const svg = d3.select("#physicalActivity_scatterPlot_Duration")
         .attr("width", width + margin.left + margin.right)
@@ -532,7 +522,7 @@ function physicalActivity_scatterPlot_Duration(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -542,8 +532,8 @@ function physicalActivity_scatterPlot_Duration(data) {
 
 function physicalActivity_scatterPlot_Quality(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     const svg = d3.select("#physicalActivity_scatterPlot_Quality")
         .attr("width", width + margin.left + margin.right)
@@ -615,7 +605,7 @@ function physicalActivity_scatterPlot_Quality(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -625,8 +615,8 @@ function physicalActivity_scatterPlot_Quality(data) {
 
 function stress_scatterPlot_Quality(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     const svg = d3.select("#stress_scatterPlot_Quality")
         .attr("width", width + margin.left + margin.right)
@@ -698,7 +688,7 @@ function stress_scatterPlot_Quality(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -708,8 +698,8 @@ function stress_scatterPlot_Quality(data) {
 
 function stress_scatterPlot_Duration(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     const svg = d3.select("#stress_scatterPlot_Duration")
         .attr("width", width + margin.left + margin.right)
@@ -781,7 +771,7 @@ function stress_scatterPlot_Duration(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -791,8 +781,8 @@ function stress_scatterPlot_Duration(data) {
 
 function heartRate_scatterPlot_Quality(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     const svg = d3.select("#heartRate_scatterPlot_Quality")
         .attr("width", width + margin.left + margin.right)
@@ -864,7 +854,7 @@ function heartRate_scatterPlot_Quality(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
@@ -874,8 +864,8 @@ function heartRate_scatterPlot_Quality(data) {
 
 function heartRate_scatterPlot_Duration(data) {
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
-    const width = 220;
-    const height = 220;
+    const width = 500;
+    const height = 300;
 
     const svg = d3.select("#heartRate_scatterPlot_Duration")
         .attr("width", width + margin.left + margin.right)
@@ -947,7 +937,7 @@ function heartRate_scatterPlot_Duration(data) {
     // Y-Label
     svg.append("text")
         .attr("transform", 
-            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "translate(" + (-margin.left + 50) + "," + (height / 2 - margin.top) + ")" + // Adjust the translation for vertical centering
             "rotate(-90)"
         )
         .style("text-anchor", "middle")
