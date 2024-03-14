@@ -6,7 +6,7 @@
 
 
 // Physical Activity - scatter plot
-// Stress - bar chart 
+// Stress - scatter plot  
  
 // Cardiovascular Health - ?? 
 
@@ -448,7 +448,171 @@ function sleepDisorder_boxPlot(data) {
 
 }
 
+function physicalActivity_scatterPlot_Duration(data) {
+    const margin = { top: 25, right: 50, bottom: 80, left: 100 };
+    const width = 220;
+    const height = 220;
 
+    const svg = d3.select("#physicalActivity_scatterPlot_Duration")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const x = d3.scaleLinear()
+        .domain([0, 100])
+        .range([0, width]);
+
+    const xAxis = svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    const y = d3.scaleLinear()
+        .domain([0, 15])
+        .range([height, 0]);
+
+    const yAxis = svg.append("g")
+        .call(d3.axisLeft(y));
+
+    svg.append("defs").append("clipPath")
+        .attr("id", "clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height);
+
+    const scatter = svg.append("g")
+        .attr("clip-path", "url(#clip)");
+
+    scatter.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 4)
+        .attr("cx", d => x(d.Physical_Activity_Level))
+        .attr("cy", d => y(d.Sleep_Duration))
+        .style("fill", "red");
+
+    function updateChart() {
+        const newX = d3.event.transform.rescaleX(x);
+        const newY = d3.event.transform.rescaleY(y);
+
+        xAxis.call(d3.axisBottom(newX));
+        yAxis.call(d3.axisLeft(newY));
+
+        scatter.selectAll("circle")
+            .attr("cx", d => newX(d.Physical_Activity_Level))
+            .attr("cy", d => newY(d.Sleep_Duration));
+    }
+    
+    const zoom = d3.zoom()
+        .scaleExtent([0.5, 40])
+        .extent([[0, 0], [width, height]])
+        .on("zoom", updateChart);
+
+    svg.call(zoom);
+
+    // X-Label
+    svg.append("text")
+        .attr("transform", 
+            "translate(" + width / 2 + "," + (height + margin.bottom - 5) + ")"
+        )
+        .style("text-anchor", "middle")
+        .style("font", "16px Arial")
+        .text("Physical Activity Level");
+
+    // Y-Label
+    svg.append("text")
+        .attr("transform", 
+            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "rotate(-90)"
+        )
+        .style("text-anchor", "middle")
+        .style("font", "16px Arial")
+        .text("Sleep Duration");
+}
+
+function physicalActivity_scatterPlot_Quality(data) {
+    const margin = { top: 25, right: 50, bottom: 80, left: 100 };
+    const width = 220;
+    const height = 220;
+
+    const svg = d3.select("#physicalActivity_scatterPlot_Quality")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const x = d3.scaleLinear()
+        .domain([0, 100])
+        .range([0, width]);
+
+    const xAxis = svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    const y = d3.scaleLinear()
+        .domain([0, 15])
+        .range([height, 0]);
+
+    const yAxis = svg.append("g")
+        .call(d3.axisLeft(y));
+
+    svg.append("defs").append("clipPath")
+        .attr("id", "clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height);
+
+    const scatter = svg.append("g")
+        .attr("clip-path", "url(#clip)");
+
+    scatter.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 4)
+        .attr("cx", d => x(d.Physical_Activity_Level))
+        .attr("cy", d => y(d.Quality_of_Sleep))
+        .style("fill", "blue");
+
+    function updateChart() {
+        const newX = d3.event.transform.rescaleX(x);
+        const newY = d3.event.transform.rescaleY(y);
+
+        xAxis.call(d3.axisBottom(newX));
+        yAxis.call(d3.axisLeft(newY));
+
+        scatter.selectAll("circle")
+            .attr("cx", d => newX(d.Physical_Activity_Level))
+            .attr("cy", d => newY(d.Quality_of_Sleep));
+    }
+    
+    const zoom = d3.zoom()
+        .scaleExtent([0.5, 40])
+        .extent([[0, 0], [width, height]])
+        .on("zoom", updateChart);
+
+    svg.call(zoom);
+
+    // X-Label
+    svg.append("text")
+        .attr("transform", 
+            "translate(" + width / 2 + "," + (height + margin.bottom - 5) + ")"
+        )
+        .style("text-anchor", "middle")
+        .style("font", "16px Arial")
+        .text("Physical Activity Level");
+
+    // Y-Label
+    svg.append("text")
+        .attr("transform", 
+            "translate(" + (-margin.left + 30) + "," + height / 2 + ")" +
+            "rotate(-90)"
+        )
+        .style("text-anchor", "middle")
+        .style("font", "16px Arial")
+        .text("Sleep Duration");
+}
 
 
 d3.csv("Sleep_health_and_lifestyle_dataset.csv").then(rawdata => {
@@ -471,4 +635,8 @@ d3.csv("Sleep_health_and_lifestyle_dataset.csv").then(rawdata => {
 
     sleepDisorder_barChart(filteredData);
     sleepDisorder_boxPlot(filteredData);
+
+    physicalActivity_scatterPlot_Duration(filteredData);
+    physicalActivity_scatterPlot_Quality(filteredData);
+
 })
