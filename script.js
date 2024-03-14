@@ -945,6 +945,56 @@ function heartRate_scatterPlot_Duration(data) {
         .text("Quality of Sleep");
 }
 
+function goBack() {
+    // Hide visualization sections
+    document.getElementById('visualizationSections').style.display = 'none';
+
+    // Show the introduction section
+    document.getElementById('intro').style.display = 'block';
+    
+    // Optionally, scroll back to the top of the page
+    window.scrollTo(0, 0);
+}
+
+function startExploration() {
+    var inputFactor = document.getElementById('factorInput').value.toLowerCase();
+    var visualizationMapping = {
+        "occupation": ["Occupation_vs_Quality_barChart", "Occupation_vs_Duration_barChart"],
+        // Add other mappings here: input value => corresponding visualization element IDs
+        "sleep disorder": ["sleep_disorder_barChart", "sleep_disorder_boxPlot"],
+        "physical activity": ["physical_activity_scatterPlot"], // Placeholder ID
+        "stress": ["stress_barChart"], // Placeholder ID
+        // "cardiovascular": ["cardiovascular_health_chart"] // Placeholder ID if you have this visualization
+    };
+
+    // Hide intro section and show page-wrapper
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('visualizationSections').style.display = 'block';
+
+    // Hide all visualizations initially
+    document.querySelectorAll('.row').forEach(row => row.style.display = 'none');
+
+    // Check if the input factor is in the mapping
+    if (inputFactor in visualizationMapping) {
+        // Find the corresponding visualizations and show them
+        visualizationMapping[inputFactor].forEach(function(visId) {
+            document.getElementById(visId).parentElement.parentElement.style.display = 'block';
+        });
+
+        // Scroll to the first visualization for the input factor
+        document.getElementById(visualizationMapping[inputFactor][0]).scrollIntoView({ behavior: 'smooth' });
+    } else {
+        alert("Please enter a valid factor such as 'occupation', 'sleep disorder', 'physical activity', or 'stress'.");
+        // Reset to initial state if input is invalid
+        document.getElementById('intro').style.display = 'block';
+        document.getElementById('visualizationSections').style.display = 'none';
+    }
+}
+
+// Modify the event listener for the submit button to call startExploration
+document.querySelector('button').addEventListener('click', startExploration);
+
+
 d3.csv("Sleep_health_and_lifestyle_dataset.csv").then(rawdata => {
     console.log("rawdata: ", rawdata);
     filteredData = rawdata.map(d => {
