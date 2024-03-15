@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Sleep Health and Lifestyle Visualization</title>
     <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
-    <script src="https://d3js.org/d3.v7.min.js"></script> <!-- D3.js Library -->
+    <script src="https://d3js.org/d3.v5.min.js"></script> <!-- D3.js Library -->
 </head>
 <body>
     <div id="intro">
@@ -80,6 +80,17 @@
             <div class="col">
                 <div class="title">Stress vs Duration of Sleep</div>
                 <svg id="stress_scatterPlot_Duration" height="300"></svg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="title">Sleep Quality Overview</div>
+                <svg id="parallelCoordinates_Quality" height="300"></svg>
+            </div>
+            <div class="col">
+                <div class="title">Duration of Sleep Overview</div>
+                <svg id="parallelCoordinates_Duration" height="300"></svg>
             </div>
         </div>
 

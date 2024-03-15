@@ -945,6 +945,190 @@ function heartRate_scatterPlot_Duration(data) {
         .text("Quality of Sleep");
 }
 
+
+function parallelCoordinates_Quality(data){
+    console.log(data);
+    const margin = { top: 25, right: 50, bottom: 80, left: 100 };
+    const width = 1200;
+    const height = 500;
+
+    const svg = d3.select("#parallelCoordinates_Quality")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    
+    let dimensions = d3.keys(data[0]).filter(function(d){return d!="Occupation" && d!="Sleep_Disorder"&& d!="Sleep_Duration"});
+    y = {};
+    for (let i=0; i<dimensions.length; i++){
+        y[dimensions[i]] = d3.scaleLinear()
+            .domain( d3.extent(data, function(d) { return +d[dimensions[i]]; }) )
+            .range([height, 0])
+    }
+    x = d3.scalePoint()
+        .range([0, width])
+        .padding(1)
+        .domain(dimensions);
+    function path(d) {
+        return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+    }
+
+    var scaleColor = d3.scaleLinear().domain([4,9])
+        .range(["orange", "green"])
+
+
+        var highlight = function(d){
+
+            highlighted_quality = d.Quality_of_Sleep
+        
+            // first every group turns grey
+            d3.selectAll("." + "a")
+              .transition().duration(300)
+              .style("stroke", "lightgrey")
+              .style("opacity", "0.2")
+            // Second the hovered specie takes its color
+            d3.selectAll("." + "a" + String(d.Quality_of_Sleep))
+              .transition().duration(300)
+              .style("stroke", scaleColor(highlighted_quality))
+              .style("opacity", "1")
+              .style("stroke-width", 2.5)
+          }
+        
+          // Unhighlight
+          var unHighlight = function(d){
+            d3.selectAll(".path")
+              .transition().duration(300).delay(700)
+              .style("stroke", function(d){ return( scaleColor(d.Quality_of_Sleep))} )
+              .style("opacity", "0.6")
+              .style("stroke-width", 1.5)
+          }
+        
+          // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
+          function path(d) {
+              return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+          }
+        
+
+
+    svg.selectAll("path")
+        .data(data)
+        .enter().append("path")
+            .attr("class", function (d) { return "path " + "a" + String(d.Quality_of_Sleep) + " a"} ) 
+            .attr("d",  path)
+            .style("fill", "none")
+            .style("stroke", function(d){return scaleColor(d["Quality_of_Sleep"])})
+            .style("stroke-width", 1.5)
+            .style("opacity", 0.5)
+            .on("mouseover", highlight)
+            .on("mouseleave", unHighlight )
+    
+    let labels = {Sleep_Duration:"Sleep Duration", Quality_of_Sleep:"Quality of Sleep", Physical_Activity_Level:"Physical Activity Level", Daily_Steps:"Daily Steps", Stress_Level:"Stress Level", Heart_Rate:"Heart Rate"};
+    
+    svg.selectAll("axis")
+        .data(dimensions).enter()
+        .append("g")
+        .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+        .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+        .append("text")
+            .style("text-anchor", "middle")
+            .attr("y", height+25)
+            .attr("font-size", 16)
+            .text(function(d) { return labels[d]; })
+            .style("fill", "black")
+}
+
+function parallelCoordinates_Duration(data){
+    const margin = { top: 25, right: 50, bottom: 80, left: 100 };
+    const width = 1200;
+    const height = 500;
+
+    const svg = d3.select("#parallelCoordinates_Duration")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    
+    let dimensions = d3.keys(data[0]).filter(function(d){return d!="Occupation" && d!="Sleep_Disorder"&& d!="Quality_of_Sleep"});
+    y = {};
+    for (let i=0; i<dimensions.length; i++){
+        y[dimensions[i]] = d3.scaleLinear()
+            .domain( d3.extent(data, function(d) { return +d[dimensions[i]]; }) )
+            .range([height, 0])
+    }
+    x = d3.scalePoint()
+        .range([0, width])
+        .padding(1)
+        .domain(dimensions);
+    function path(d) {
+        return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+    }
+
+    var scaleColor = d3.scaleLinear().domain([5.5,8.5])
+        .range(["orange", "green"])
+
+
+        var highlight = function(d){
+
+            highlighted_duration = parseInt(d.Sleep_Duration);
+        
+            // first every group turns grey
+            d3.selectAll("." + "b")
+              .transition().duration(300)
+              .style("stroke", "lightgrey")
+              .style("opacity", "0.2")
+            // Second the hovered specie takes its color
+            d3.selectAll("." + "b" + String(highlighted_duration))
+              .transition().duration(300)
+              .style("stroke", scaleColor(highlighted_duration))
+              .style("stroke-width", 2.5)
+              .style("opacity", "1")
+          }
+        
+          // Unhighlight
+          var unHighlight = function(d){
+            d3.selectAll(".path")
+              .transition().duration(300).delay(700)
+              .style("stroke", function(d){ return( scaleColor(parseInt(d.Sleep_Duration)))} )
+              .style("opacity", "0.6")
+              .style("stroke-width", 1.5)
+          }
+        
+          // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
+          function path(d) {
+              return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+          }
+        
+
+
+    svg.selectAll("path")
+        .data(data)
+        .enter().append("path")
+            .attr("class", function (d) { return "path " + "b" + String(parseInt(d.Sleep_Duration)) + " b"} ) 
+            .attr("d",  path)
+            .style("fill", "none")
+            .style("stroke", function(d){return scaleColor(d["Sleep_Duration"])})
+            .style("stroke-width", 1.5)
+            .style("opacity", 0.5)
+            .on("mouseover", highlight)
+            .on("mouseleave", unHighlight )
+    
+    let labels = {Sleep_Duration:"Sleep Duration", Quality_of_Sleep:"Quality of Sleep", Physical_Activity_Level:"Physical Activity Level", Daily_Steps:"Daily Steps", Stress_Level:"Stress Level", Heart_Rate:"Heart Rate"};
+    
+    svg.selectAll("axis")
+        .data(dimensions).enter()
+        .append("g")
+        .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+        .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+        .append("text")
+            .style("text-anchor", "middle")
+            .attr("y", height+25)
+            .attr("font-size", 16)
+            .text(function(d) { return labels[d]; })
+            .style("fill", "black")
+}
+
 function startExploration() {
     var inputFactor = document.getElementById('factorInput').value.toLowerCase();
     var visualizationMapping = {
@@ -953,6 +1137,8 @@ function startExploration() {
         "sleep disorder": ["sleep_disorder_barChart", "sleep_disorder_boxPlot"],
         "physical activity": ["physical_activity_scatterPlot"], // Placeholder ID
         "stress": ["stress_barChart"], // Placeholder ID
+
+        "parallel coordinates": ["parallelCoordinates_Quality", "parallelCoordinates_Duration"]
         // "cardiovascular": ["cardiovascular_health_chart"] // Placeholder ID if you have this visualization
     };
 
@@ -1016,4 +1202,12 @@ d3.csv("Sleep_health_and_lifestyle_dataset.csv").then(rawdata => {
     heartRate_scatterPlot_Quality(filteredData);
     heartRate_scatterPlot_Duration(filteredData);
     
+    parallelCoordinates_Quality(filteredData);
+    parallelCoordinates_Duration(filteredData);
 })
+function goBack(){
+    console.log("back");
+    document.getElementById('intro').style.display = 'block';
+    document.getElementById('visualizationSections').style.display = 'block';
+    document.querySelectorAll('.row').forEach(row => row.style.display = 'block');
+}
