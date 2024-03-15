@@ -947,7 +947,40 @@ function heartRate_scatterPlot_Duration(data) {
 
 
 function parallelCoordinates_Quality(data){
-    console.log(data);
+    
+    let averages = []
+    for(let i=0; i<=9; i++){
+        averages.push({Sleep_Duration:0, Quality_of_Sleep:0, Physical_Activity_Level:0, Daily_Steps:0, Stress_Level:0, Heart_Rate:0, Total:0})
+    }
+    console.log(averages);
+    //
+
+    data.forEach((d) => {
+        
+        let average = averages[d.Quality_of_Sleep];
+        
+        average["Sleep_Duration"]+=d.Sleep_Duration;
+        average["Quality_of_Sleep"]+=d.Quality_of_Sleep;
+        average["Physical_Activity_Level"]+=d.Physical_Activity_Level;
+        average["Daily_Steps"]+=d.Daily_Steps;
+        average["Stress_Level"]+=d.Stress_Level;
+        average["Heart_Rate"]+=d.Heart_Rate;
+        average["Total"]+=1;
+    });
+    console.log(averages)
+    averages.forEach((average)=>{
+        if(average["Total"]!=0) {
+            average["Sleep_Duration"] = average["Sleep_Duration"]/average["Total"];
+            average["Quality_of_Sleep"] = average["Quality_of_Sleep"]/average["Total"];
+            average["Physical_Activity_Level"] = average["Physical_Activity_Level"]/average["Total"];
+            average["Daily_Steps"] = average["Daily_Steps"]/average["Total"];
+            average["Stress_Level"] = average["Stress_Level"]/average["Total"];
+            average["Heart_Rate"] = average["Heart_Rate"]/average["Total"];
+        }
+        
+    });
+    
+    console.log(averages);
     const margin = { top: 25, right: 50, bottom: 80, left: 100 };
     const width = 1200;
     const height = 500;
@@ -982,17 +1015,25 @@ function parallelCoordinates_Quality(data){
 
             highlighted_quality = d.Quality_of_Sleep
         
-            // first every group turns grey
+         
             d3.selectAll("." + "a")
               .transition().duration(300)
               .style("stroke", "lightgrey")
               .style("opacity", "0.2")
-            // Second the hovered specie takes its color
+           
             d3.selectAll("." + "a" + String(d.Quality_of_Sleep))
               .transition().duration(300)
               .style("stroke", scaleColor(highlighted_quality))
-              .style("opacity", "1")
+              .style("opacity", "0.8")
               .style("stroke-width", 2.5)
+
+            d3.selectAll("." + "a_avg" + String(d.Quality_of_Sleep))
+              .transition().duration(300)
+              .style("stroke-width", 12)
+              .style("opacity", "1")
+              
+            
+            
           }
         
           // Unhighlight
@@ -1001,7 +1042,11 @@ function parallelCoordinates_Quality(data){
               .transition().duration(300).delay(700)
               .style("stroke", function(d){ return( scaleColor(d.Quality_of_Sleep))} )
               .style("opacity", "0.6")
-              .style("stroke-width", 1.5)
+              .style("stroke-width", 2)
+
+              d3.selectAll("." + "a_avg" + String(d.Quality_of_Sleep))
+              .transition().duration(300).delay(700)
+              .style("opacity", "0")
           }
         
           // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
@@ -1010,7 +1055,16 @@ function parallelCoordinates_Quality(data){
           }
         
 
-
+    svg.selectAll("path")
+          .data(averages)
+          .enter().append("path")
+                .attr("class", function (d) { return "path " + "a_avg" + String(d.Quality_of_Sleep) + " a_avg"} ) 
+                .attr("d",  path)
+                .style("fill", "none")
+                .style("stroke", function(d){return scaleColor(d["Quality_of_Sleep"])})
+                .style("stroke-width", 12)
+                .style("opacity", 0)
+                
     svg.selectAll("path")
         .data(data)
         .enter().append("path")
@@ -1018,7 +1072,7 @@ function parallelCoordinates_Quality(data){
             .attr("d",  path)
             .style("fill", "none")
             .style("stroke", function(d){return scaleColor(d["Quality_of_Sleep"])})
-            .style("stroke-width", 1.5)
+            .style("stroke-width", 2)
             .style("opacity", 0.5)
             .on("mouseover", highlight)
             .on("mouseleave", unHighlight )
@@ -1036,6 +1090,14 @@ function parallelCoordinates_Quality(data){
             .attr("font-size", 16)
             .text(function(d) { return labels[d]; })
             .style("fill", "black")
+
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${width - 200}, 100)`);
+    legend.append("text")
+        .attr("x", 15)
+        .attr("y", 10)
+        .text("Hover to show Sleep Quality Averages");
 }
 
 function parallelCoordinates_Duration(data){
@@ -1043,6 +1105,40 @@ function parallelCoordinates_Duration(data){
     const width = 1200;
     const height = 500;
 
+
+    let averages = []
+    for(let i=0; i<=9; i++){
+        averages.push({Sleep_Duration:0, Quality_of_Sleep:0, Physical_Activity_Level:0, Daily_Steps:0, Stress_Level:0, Heart_Rate:0, Total:0})
+    }
+    console.log(averages);
+    //
+
+    data.forEach((d) => {
+        
+        let average = averages[parseInt(d.Sleep_Duration)];
+        
+        average["Sleep_Duration"]+=d.Sleep_Duration;
+        average["Quality_of_Sleep"]+=d.Quality_of_Sleep;
+        average["Physical_Activity_Level"]+=d.Physical_Activity_Level;
+        average["Daily_Steps"]+=d.Daily_Steps;
+        average["Stress_Level"]+=d.Stress_Level;
+        average["Heart_Rate"]+=d.Heart_Rate;
+        average["Total"]+=1;
+    });
+    console.log(averages)
+    averages.forEach((average)=>{
+        if(average["Total"]!=0) {
+            average["Sleep_Duration"] = average["Sleep_Duration"]/average["Total"];
+            average["Quality_of_Sleep"] = average["Quality_of_Sleep"]/average["Total"];
+            average["Physical_Activity_Level"] = average["Physical_Activity_Level"]/average["Total"];
+            average["Daily_Steps"] = average["Daily_Steps"]/average["Total"];
+            average["Stress_Level"] = average["Stress_Level"]/average["Total"];
+            average["Heart_Rate"] = average["Heart_Rate"]/average["Total"];
+        }
+        
+    });
+
+    
     const svg = d3.select("#parallelCoordinates_Duration")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -1073,26 +1169,39 @@ function parallelCoordinates_Duration(data){
 
             highlighted_duration = parseInt(d.Sleep_Duration);
         
-            // first every group turns grey
+            
             d3.selectAll("." + "b")
               .transition().duration(300)
               .style("stroke", "lightgrey")
               .style("opacity", "0.2")
-            // Second the hovered specie takes its color
+            
             d3.selectAll("." + "b" + String(highlighted_duration))
               .transition().duration(300)
               .style("stroke", scaleColor(highlighted_duration))
               .style("stroke-width", 2.5)
               .style("opacity", "1")
+            d3.selectAll("." + "b_avg" + String(highlighted_duration))
+              .transition().duration(300)
+              .style("stroke-width", 12)
+              .style("opacity", "1")
+
+            //legend.text("Duration: " + String(highlighted_duration));
           }
         
           // Unhighlight
           var unHighlight = function(d){
             d3.selectAll(".path")
-              .transition().duration(300).delay(700)
-              .style("stroke", function(d){ return( scaleColor(parseInt(d.Sleep_Duration)))} )
-              .style("opacity", "0.6")
-              .style("stroke-width", 1.5)
+                .transition().duration(300).delay(700)
+                .style("stroke", function(d){ return( scaleColor(d.Sleep_Duration))} )
+                .style("opacity", "0.6")
+                .style("stroke-width", 2)
+            d3.selectAll("." + "b_avg" + String(highlighted_duration))
+                .transition().duration(300).delay(700)
+                .style("opacity", "0")
+            
+            //legend.text("Hover to show Sleep Duration Averages");
+
+                
           }
         
           // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
@@ -1101,7 +1210,15 @@ function parallelCoordinates_Duration(data){
           }
         
 
-
+    svg.selectAll("path")
+          .data(averages)
+          .enter().append("path")
+                .attr("class", function (d) { return "path " + "b_avg" + String(parseInt(d.Sleep_Duration)) + " b_avg"} ) 
+                .attr("d",  path)
+                .style("fill", "none")
+                .style("stroke", function(d){return scaleColor(d["Sleep_Duration"])})
+                .style("stroke-width", 12)
+                .style("opacity", 0)
     svg.selectAll("path")
         .data(data)
         .enter().append("path")
@@ -1127,6 +1244,13 @@ function parallelCoordinates_Duration(data){
             .attr("font-size", 16)
             .text(function(d) { return labels[d]; })
             .style("fill", "black")
+    const legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${width - 200}, 100)`);
+    legend.append("text")
+            .attr("x", 15)
+            .attr("y", 10)
+            .text("Hover to show Sleep Duration Averages");
 }
 
 function startExploration() {
