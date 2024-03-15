@@ -1091,13 +1091,17 @@ function parallelCoordinates_Quality(data){
             .text(function(d) { return labels[d]; })
             .style("fill", "black")
 
-    const legend = svg.append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(${width - 200}, 100)`);
+            const legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${width - 200}, 100)`);
     legend.append("text")
-        .attr("x", 15)
-        .attr("y", 10)
-        .text("Hover to show Sleep Quality Averages");
+            .attr("x", 15)
+            .attr("y", 10)
+            .text("Hover to show Sleep")
+    legend.append("text")
+            .attr("x", 15)
+            .attr("y", 30)
+            .text("Quality Averages");
 }
 
 function parallelCoordinates_Duration(data){
@@ -1250,7 +1254,11 @@ function parallelCoordinates_Duration(data){
     legend.append("text")
             .attr("x", 15)
             .attr("y", 10)
-            .text("Hover to show Sleep Duration Averages");
+            .text("Hover to show Sleep")
+    legend.append("text")
+            .attr("x", 15)
+            .attr("y", 30)
+            .text("Duration Averages");
 }
 
 function startExploration() {
